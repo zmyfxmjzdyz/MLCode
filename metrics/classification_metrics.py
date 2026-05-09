@@ -38,6 +38,55 @@ def confusion_matrix(y_true, y_pred, y_which_true):
     return {'TP': TP, 'FN': FN, 'FP': FP, 'TN': TN}
 
 
+def accuracy(y_pred=None, y_which_true=None):
+    """
+    计算准确率
+    :param y_pred:预测值
+    :param y_which_true:正例是什么
+    :return:准确率
+    """
+    return np.mean(y_pred == y_which_true)
+
+
+def precision(y_true=None, y_pred=None, y_which_true=None):
+    """
+    计算精确率
+    :param y_true:真实值
+    :param y_pred:预测值
+    :param y_which_true:正例是什么
+    :return:精确率
+    """
+    cm = confusion_matrix(y_true, y_pred, y_which_true)
+
+    return cm['TP'] / (cm['TP'] + cm['FP'])
+
+
+def recall(y_true=None, y_pred=None, y_which_true=None):
+    """
+    计算召回率
+    :param y_true:真实值
+    :param y_pred:预测值
+    :param y_which_true:正例是什么
+    :return:召回率
+    """
+    cm = confusion_matrix(y_true, y_pred, y_which_true)
+    return cm['TP'] / (cm['TP'] + cm['FN'])
+
+
+def f1_score(y_true=None, y_pred=None, y_which_true=None):
+    """
+    计算F1-Score
+    :param y_true:真实值
+    :param y_pred:预测值
+    :param y_which_true:正例是什么
+    :return:F1-Score
+    """
+    cm = confusion_matrix(y_true, y_pred, y_which_true)
+    precision_ = cm['TP'] / (cm['TP'] + cm['FP'])
+    recall_ = cm['TP'] / (cm['TP'] + cm['FN'])
+    return 2 * precision_ * recall_ / (precision_ + recall_)
+
+
 def confusion_matrix_by_threshold(y_true, y_pred_proba, y_which_true, y_which_false=None, threshold=0.5,
                                   bigger_is_true=True):
     """
